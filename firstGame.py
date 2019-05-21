@@ -1,5 +1,5 @@
 import pygame
-from random import randint
+from random import randrange
 
 # definição de cores
 branco = (255, 255, 255)
@@ -37,15 +37,14 @@ def cobra(cobraXY):
 def maca(pos_x, pos_y):
     pygame.draw.rect(fundo, vermelho, [pos_x, pos_y, tamanho, tamanho])
 
-
 def jogo():
     sair = True
     fim_de_jogo = False
-    pos_x = randint(0, (largura - tamanho) / 10) * 10
-    pos_y = randint(0, (altura - tamanho) / 10) * 10
+    pos_x = randrange(0, (largura - tamanho), 10)
+    pos_y = randrange(0, (altura - tamanho), 10)
 
-    maca_x = randint(0, (largura - tamanho) / 10) * 10
-    maca_y = randint(0, (altura - tamanho) / 10) * 10
+    maca_x = randrange(0, (largura - tamanho), 10)
+    maca_y = randrange(0, (altura - tamanho), 10)
 
     velocidade_x = 0
     velocidade_y = 0
@@ -65,7 +64,22 @@ def jogo():
                     fim_de_jogo = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_c:
-                        jogo()
+
+                        sair = True
+                        fim_de_jogo = False
+                        pos_x = randrange(0, (largura - tamanho), 10)
+                        pos_y = randrange(0, (altura - tamanho), 10)
+
+                        maca_x = randrange(0, (largura - tamanho), 10)
+                        maca_y = randrange(0, (altura - tamanho), 10)
+
+                        velocidade_x = 0
+                        velocidade_y = 0
+
+                        cobra_XY = []
+                        cobra_comp = 1
+
+
                     if event.key == pygame.K_s:
                         sair = False
                         fim_de_jogo = False
@@ -111,8 +125,8 @@ def jogo():
 
         cobra(cobra_XY)
         if pos_x == maca_x and pos_y == maca_y:
-            maca_x = randint(0, (largura - tamanho) / 10) * 10
-            maca_y = randint(0, (altura - tamanho) / 10) * 10
+            maca_x = randrange(0, (largura - tamanho), 10)
+            maca_y = randrange(0, (altura - tamanho), 10)
             cobra_comp += 1
 
         maca(maca_x, maca_y)
