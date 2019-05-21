@@ -80,10 +80,11 @@ def jogo():
         cobra_XY.append(cobra_inicio)
 
         cobra(cobra_XY)
-
+        if pos_x == maca_x and pos_y == maca_y:
+            maca_x = randint(0, (largura - tamanho) / 10) * 10
+            maca_y = randint(0, (altura - tamanho) / 10) * 10
 
         maca(maca_x, maca_y)
-
 
         pygame.display.update()
         relogio.tick(15)
