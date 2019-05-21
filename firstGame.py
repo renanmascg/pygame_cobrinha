@@ -43,6 +43,9 @@ def jogo():
     velocidade_x = 0
     velocidade_y = 0
 
+    cobra_XY = []
+    cobra_comp = 1
+
     while sair:
 
         for event in pygame.event.get():
@@ -73,16 +76,19 @@ def jogo():
         pos_x += velocidade_x
         pos_y += velocidade_y
 
-        cobra_XY = []
         cobra_inicio = []
         cobra_inicio.append(pos_x)
         cobra_inicio.append(pos_y)
         cobra_XY.append(cobra_inicio)
 
+        if len(cobra_XY) > cobra_comp:
+            del cobra_XY[0]
+
         cobra(cobra_XY)
         if pos_x == maca_x and pos_y == maca_y:
             maca_x = randint(0, (largura - tamanho) / 10) * 10
             maca_y = randint(0, (altura - tamanho) / 10) * 10
+            cobra_comp += 1
 
         maca(maca_x, maca_y)
 
