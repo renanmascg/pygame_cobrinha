@@ -23,8 +23,9 @@ fundo = pygame.display.set_mode(size=(largura, altura))
 pygame.display.set_caption("Snake")
 
 
-def cobra(pos_x, pos_y):
-    pygame.draw.rect(fundo, preto, [pos_x, pos_y, tamanho, tamanho])
+def cobra(cobraXY):
+    for XY in cobraXY:
+        pygame.draw.rect(fundo, preto, [XY[0], XY[1], tamanho, tamanho])
 
 
 def maca(pos_x, pos_y):
@@ -71,8 +72,19 @@ def jogo():
         fundo.fill(branco)
         pos_x += velocidade_x
         pos_y += velocidade_y
-        cobra(pos_x, pos_y)
+
+        cobra_XY = []
+        cobra_inicio = []
+        cobra_inicio.append(pos_x)
+        cobra_inicio.append(pos_y)
+        cobra_XY.append(cobra_inicio)
+
+        cobra(cobra_XY)
+
+
         maca(maca_x, maca_y)
+
+
         pygame.display.update()
         relogio.tick(15)
 
