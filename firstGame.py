@@ -83,6 +83,9 @@ def jogo():
 
         if len(cobra_XY) > cobra_comp:
             del cobra_XY[0]
+        if any(bloco == cobra_inicio for bloco in cobra_XY[:-1]):
+        #if cobra_inicio in cobra_XY[:-1]:
+            pass
 
         cobra(cobra_XY)
         if pos_x == maca_x and pos_y == maca_y:
