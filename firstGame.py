@@ -13,14 +13,20 @@ try:
 except:
     print("Algo de errado ocorreu ao inicializar o python")
 
-largura = 640
-altura = 480
+largura = 320
+altura = 240
 tamanho = 10  # pixels
 
 # configuração da janela do jogo
 relogio = pygame.time.Clock()  # limitar a quantidade de frames por segundos
 fundo = pygame.display.set_mode(size=(largura, altura))
 pygame.display.set_caption("Snake")
+font = pygame.font.SysFont(None, 15)
+
+
+def texto(msg, cor):
+    texto1 = font.render(msg, True, cor)
+    fundo.blit(texto1, [largura / 10, altura / 2])
 
 
 def cobra(cobraXY):
@@ -34,6 +40,7 @@ def maca(pos_x, pos_y):
 
 def jogo():
     sair = True
+    fim_de_jogo = False
     pos_x = randint(0, (largura - tamanho) / 10) * 10
     pos_y = randint(0, (altura - tamanho) / 10) * 10
 
@@ -47,6 +54,21 @@ def jogo():
     cobra_comp = 1
 
     while sair:
+
+        while fim_de_jogo:
+            fundo.fill(branco)
+            texto("Fim de Jogo, para continuar tecle C ou S para sair", vermelho)
+            pygame.display.update()  # update para mostrar o ocorrido acima
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sair = False
+                    fim_de_jogo = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_c:
+                        jogo()
+                    if event.key == pygame.K_s:
+                        sair = False
+                        fim_de_jogo = False
 
         for event in pygame.event.get():
 
@@ -84,8 +106,8 @@ def jogo():
         if len(cobra_XY) > cobra_comp:
             del cobra_XY[0]
         if any(bloco == cobra_inicio for bloco in cobra_XY[:-1]):
-        #if cobra_inicio in cobra_XY[:-1]:
-            pass
+            # if cobra_inicio in cobra_XY[:-1]:
+            fim_de_jogo = True
 
         cobra(cobra_XY)
         if pos_x == maca_x and pos_y == maca_y:
