@@ -37,6 +37,7 @@ def cobra(cobraXY):
 def maca(pos_x, pos_y):
     pygame.draw.rect(fundo, vermelho, [pos_x, pos_y, tamanho, tamanho])
 
+
 def jogo():
     sair = True
     fim_de_jogo = False
@@ -64,7 +65,6 @@ def jogo():
                     fim_de_jogo = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_c:
-
                         sair = True
                         fim_de_jogo = False
                         pos_x = randrange(0, (largura - tamanho), 10)
@@ -78,7 +78,6 @@ def jogo():
 
                         cobra_XY = []
                         cobra_comp = 1
-
 
                     if event.key == pygame.K_s:
                         sair = False
@@ -112,27 +111,10 @@ def jogo():
         pos_x += velocidade_x
         pos_y += velocidade_y
 
-        cobra_inicio = []
-        cobra_inicio.append(pos_x)
-        cobra_inicio.append(pos_y)
-        cobra_XY.append(cobra_inicio)
-
-        if len(cobra_XY) > cobra_comp:
-            del cobra_XY[0]
-        if any(bloco == cobra_inicio for bloco in cobra_XY[:-1]):
-            # if cobra_inicio in cobra_XY[:-1]:
-            fim_de_jogo = True
-
-        cobra(cobra_XY)
         if pos_x == maca_x and pos_y == maca_y:
             maca_x = randrange(0, (largura - tamanho), 10)
             maca_y = randrange(0, (altura - tamanho), 10)
             cobra_comp += 1
-
-        maca(maca_x, maca_y)
-
-        pygame.display.update()
-        relogio.tick(15)
 
         if pos_x > largura:
             pos_x = 0
@@ -143,6 +125,23 @@ def jogo():
             pos_y = 0
         if pos_y < 0:
             pos_y = altura - tamanho
+
+        cobra_inicio = []
+        cobra_inicio.append(pos_x)
+        cobra_inicio.append(pos_y)
+        cobra_XY.append(cobra_inicio)
+
+        if len(cobra_XY) > cobra_comp:
+            del cobra_XY[0]
+        if any(bloco == cobra_inicio for bloco in cobra_XY[:-1]):
+            fim_de_jogo = True
+
+        cobra(cobra_XY)
+
+        maca(maca_x, maca_y)
+
+        relogio.tick(15)
+        pygame.display.update()
 
     pygame.display.update()
 
