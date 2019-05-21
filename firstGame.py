@@ -57,9 +57,7 @@ def jogo():
     while sair:
 
         while fim_de_jogo:
-            fundo.fill(branco)
-            texto("Fim de Jogo, para continuar tecle C ou S para sair", vermelho, 15, largura / 10, altura / 2)
-            pygame.display.update()  # update para mostrar o ocorrido acima
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sair = False
@@ -84,6 +82,20 @@ def jogo():
                         sair = False
                         fim_de_jogo = False
 
+            fundo.fill(branco)
+            texto("FIM DE JOGO", vermelho, 50, 55, 30)
+            texto("PONTUAÇÃO FINAL: {}".format(cobra_comp - 1), preto, 30, 60, 80)
+
+            #botao de continuar o jogo
+            pygame.draw.rect(fundo, preto, [45,120, 135, 27] )
+            texto('Continuar (C)', branco,30, 50, 125)
+
+            #Botao de finalizar o jogo
+            pygame.draw.rect(fundo, preto, [190, 120, 75, 27])
+            texto('Sair (s)', branco, 30, 195, 125)
+
+            pygame.display.update()  # update para mostrar o ocorrido acima
+
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
@@ -92,6 +104,10 @@ def jogo():
             # eventos de movimentação
             # and -> evita mover em direções opostas
             if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_SPACE:
+                    fim_de_jogo = True
+
                 if event.key == pygame.K_LEFT and velocidade_x != tamanho:
                     velocidade_y = 0
                     velocidade_x = -tamanho
