@@ -14,19 +14,20 @@ except:
     print("Algo de errado ocorreu ao inicializar o python")
 
 largura = 320
-altura = 240
+altura = 280
 tamanho = 10  # pixels
+placar = 40
 
 # configuração da janela do jogo
 relogio = pygame.time.Clock()  # limitar a quantidade de frames por segundos
 fundo = pygame.display.set_mode(size=(largura, altura))
 pygame.display.set_caption("Snake")
-font = pygame.font.SysFont(None, 15)
 
 
-def texto(msg, cor):
+def texto(msg, cor, tam, x, y):
+    font = pygame.font.SysFont(None, tam)
     texto1 = font.render(msg, True, cor)
-    fundo.blit(texto1, [largura / 10, altura / 2])
+    fundo.blit(texto1, [x, y])
 
 
 def cobra(cobraXY):
@@ -45,7 +46,7 @@ def jogo():
     pos_y = randrange(0, (altura - tamanho), 10)
 
     maca_x = randrange(0, (largura - tamanho), 10)
-    maca_y = randrange(0, (altura - tamanho), 10)
+    maca_y = randrange(0, (altura - tamanho - placar), 10)
 
     velocidade_x = 0
     velocidade_y = 0
@@ -57,7 +58,7 @@ def jogo():
 
         while fim_de_jogo:
             fundo.fill(branco)
-            texto("Fim de Jogo, para continuar tecle C ou S para sair", vermelho)
+            texto("Fim de Jogo, para continuar tecle C ou S para sair", vermelho, 15, largura / 10, altura / 2)
             pygame.display.update()  # update para mostrar o ocorrido acima
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -113,18 +114,18 @@ def jogo():
 
         if pos_x == maca_x and pos_y == maca_y:
             maca_x = randrange(0, (largura - tamanho), 10)
-            maca_y = randrange(0, (altura - tamanho), 10)
+            maca_y = randrange(0, (altura - tamanho - placar), 10)
             cobra_comp += 1
 
-        if pos_x > largura:
+        if pos_x + tamanho > largura:
             pos_x = 0
         if pos_x < 0:
             pos_x = largura - tamanho  # inicia do outro lado
 
-        if pos_y > altura:
+        if pos_y + tamanho > altura - placar:
             pos_y = 0
         if pos_y < 0:
-            pos_y = altura - tamanho
+            pos_y = altura - tamanho - placar
 
         cobra_inicio = []
         cobra_inicio.append(pos_x)
@@ -135,6 +136,9 @@ def jogo():
             del cobra_XY[0]
         if any(bloco == cobra_inicio for bloco in cobra_XY[:-1]):
             fim_de_jogo = True
+
+        pygame.draw.rect(fundo, preto, [0, altura - placar, largura, placar])
+        texto("Pontuação: {}".format(cobra_comp - 1), branco, 20, 10, altura - 30)
 
         cobra(cobra_XY)
 
